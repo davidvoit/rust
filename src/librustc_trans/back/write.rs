@@ -1063,11 +1063,11 @@ unsafe fn configure_llvm(sess: &Session) {
         llvm::LLVMInitializeAArch64AsmPrinter();
         llvm::LLVMInitializeAArch64AsmParser();
 
-        llvm::LLVMInitializeMipsTargetInfo();
-        llvm::LLVMInitializeMipsTarget();
-        llvm::LLVMInitializeMipsTargetMC();
-        llvm::LLVMInitializeMipsAsmPrinter();
-        llvm::LLVMInitializeMipsAsmParser();
+        //llvm::LLVMInitializeMipsTargetInfo();
+        //llvm::LLVMInitializeMipsTarget();
+        //llvm::LLVMInitializeMipsTargetMC();
+        //llvm::LLVMInitializeMipsAsmPrinter();
+        //llvm::LLVMInitializeMipsAsmParser();
 
         llvm::LLVMInitializePowerPCTargetInfo();
         llvm::LLVMInitializePowerPCTarget();
