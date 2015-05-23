@@ -46,7 +46,15 @@ def run(args):
 
 f.write("\n")
 
+llvm_libdir = run([llconfig, '--libdir']).strip()
+
 version = run([llconfig, '--version']).strip()
+
+shared_llvm = llvm_libdir+"/libLLVM-"+version+".so"
+if os.path.exists(llvm_libdir+"/libLLVM-"+version+".so"):
+    shared_llvm = os.path.realpath(shared_llvm)
+else:
+    shared_llvm = None
 
 # LLVM libs
 if version < '3.5':
@@ -67,11 +75,18 @@ for lib in out.strip().replace("\n", ' ').split(' '):
         lib = lib.strip()[2:]
     elif lib[0] == '-':
         lib = lib.strip()[1:]
+
+    if shared_llvm != None and 'LLVM' in lib:
+        continue
+
     f.write("#[link(name = \"" + lib + "\"")
     # LLVM libraries are all static libraries
     if 'LLVM' in lib:
         f.write(", kind = \"static\"")
     f.write(")]\n")
+
+if shared_llvm != None:
+    f.write("#[link(name = \"" + shared_llvm[len(llvm_libdir)+4:-3] + "\")]\n")
 
 # llvm-config before 3.5 didn't have a system-libs flag
 if version < '3.5':
